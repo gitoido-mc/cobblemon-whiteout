@@ -40,7 +40,7 @@ subprojects {
             create<MavenPublication>("mavenJava") {
                 artifact(tasks.getByName("remapJar"))
                 artifact(tasks.getByName("remapSourcesJar"))
-                groupId = "${group}.capturexp"
+                groupId = "${group}.whiteout"
                 artifactId = project.name
 
                 pom {
