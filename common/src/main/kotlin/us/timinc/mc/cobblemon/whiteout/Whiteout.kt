@@ -2,7 +2,6 @@ package us.timinc.mc.cobblemon.whiteout
 
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.Priority
-import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.battles.BattleEndedEvent
 import com.cobblemon.mod.common.api.events.pokemon.PokemonFaintedEvent
@@ -16,7 +15,6 @@ import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.damagesource.DamageType
 import us.timinc.mc.cobblemon.timcore.AbstractConfig
 import us.timinc.mc.cobblemon.timcore.AbstractMod
-import java.util.UUID
 
 const val MOD_ID = "cobblemon_whiteout"
 
