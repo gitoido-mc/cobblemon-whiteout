@@ -15,13 +15,12 @@ loom {
 }
 
 repositories {
-    mavenCentral()
     maven("https://hub.spigotmc.org/nexus/content/groups/public/")
     maven("https://thedarkcolour.github.io/KotlinForForge/")
-    maven("https://maven.neoforged.net/releases/")
+    maven("https://maven.neoforged.net/releases")
 }
 
-val shadowBundle: Configuration by configurations.creating {
+val shadowBundle = configurations.create("shadowBundle") {
     isCanBeConsumed = false
     isCanBeResolved = true
 }
@@ -41,19 +40,20 @@ dependencies {
     "developmentNeoForge"(project(":common", configuration = "namedElements")) {
         isTransitive = false
     }
-    shadowBundle(project(":common", configuration = "transformProductionFabric"))
+    shadowBundle(project(":common", configuration = "transformProductionNeoForge"))
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:${property("junit_version")}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${property("junit_version")}")
-}
 
-val modId: String by project
+    modImplementation("us.timinc.mc.cobblemon.timcore:neoforge:${property("tim_core_version")}") { isTransitive = false }
+}
 
 tasks {
     processResources {
         inputs.property("version", project.version)
 
         filesMatching("META-INF/neoforge.mods.toml") {
+            @Suppress("DEPRECATION", "We'll figure it out when Gradle 10 releases")
             expand(project.properties)
         }
     }
@@ -64,15 +64,13 @@ tasks {
     }
 
     sourcesJar {
-        val depSources = project(":common").tasks.sourcesJar
-        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-        dependsOn(depSources)
-        from(depSources.get().archiveFile.map { zipTree(it) }) {
-            exclude("architectury.accessWidener")
-        }
+        dependsOn(project(":common").tasks.named("sourcesJar"))
+        from(project(":common").tasks.named<Jar>("sourcesJar").get().archiveFile.map { zipTree(it) })
     }
 
     shadowJar {
+        duplicatesStrategy = DuplicatesStrategy.INCLUDE
+
         exclude("fabric.mod.json")
         archiveClassifier.set("dev-shadow")
         archiveBaseName.set("${rootProject.property("archives_base_name")}-${project.name}")
@@ -84,6 +82,10 @@ tasks {
         inputFile.set(shadowJar.flatMap { it.archiveFile })
         archiveBaseName.set("${rootProject.property("archives_base_name")}-${project.name}")
         archiveVersion.set("${rootProject.version}")
-        atAccessWideners.add("${modId}-common.accesswidener")
+    }
+
+    remapSourcesJar {
+        archiveBaseName.set("${rootProject.property("archives_base_name")}-${project.name}")
+        archiveVersion.set("${rootProject.version}")
     }
 }

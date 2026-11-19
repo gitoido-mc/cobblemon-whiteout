@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "cobblemon_whiteout:fled",
-    "cobblemon_whiteout:pokebattle"
+    "cobblemon-whiteout:fled",
+    "cobblemon-whiteout:pokebattle"
   ]
 }

@@ -1,10 +1,8 @@
 package us.timinc.mc.cobblemon.whiteout.fabric
 
-import net.fabricmc.api.ModInitializer
-import us.timinc.mc.cobblemon.whiteout.common.Whiteout
+import us.timinc.mc.cobblemon.timcore.fabric.AbstractFabricMod
+import us.timinc.mc.cobblemon.whiteout.Whiteout
 
-object WhiteoutFabric: ModInitializer {
-    override fun onInitialize() {
-        Whiteout.init()
-    }
+object WhiteoutFabric: AbstractFabricMod(Whiteout) {
+    override fun onInitialize() {}
 }
