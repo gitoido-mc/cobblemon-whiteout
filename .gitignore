@@ -30,7 +30,6 @@ forge*changelog.txt
 /logs/
 .vscode/launch.json
 .vscode
-common/src/main/resources/assets/cobblemon/showdown
 
 # Generated files
 */generated/resources/*
